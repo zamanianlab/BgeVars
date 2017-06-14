@@ -1,2 +1,2 @@
 # Local_BgeVars
-Repository for analyzing Bge cell line variants
+Repository for analyzing variants between the Bge cell line and the B. glabrata reference genome
