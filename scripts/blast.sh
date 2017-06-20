@@ -18,4 +18,8 @@ local_dir="${boxdr}/GHdata/${proj}"
 cat actin.blastout | awk '{print $2 " " $9 " " $10 " " $11}' > actin.blastout.locus
 
 # get scaffold number from Bge_GCR_00457365.fa
-cat actin.blastout.locus | awk '/$1/' Bge_GCR_00457365.fa
+cat actin.blastout | awk '{print $2}' | sort -uk1 > actin.contig.id
+grep -Fwf actin.contig.id Bge_GCR_00457365.fa > contigs
+
+bedtools getfasta -fi Bge_GCR_00457365.fa -bed actin.range.bed > actin.extract.fa
+bedtools getfasta -fi Bge_GCR_00457365.fa -bed promoter.range.bed >> actin.extract.fa
