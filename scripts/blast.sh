@@ -9,10 +9,16 @@ local_dir="${boxdr}/GHdata/${proj}"
 
 ### BLAST
 # Create blast db
-# makeblastdb -out "${local_dir}"/auxillary/Bge_GCR_00457365 -in "${local_dir}"/auxillary/Bge_GCR_00457365.fa  -dbtype prot 
+makeblastdb -out GCF_000457365.1_ASM45736v1_genomic -in GCF_000457365.1_ASM45736v1_genomic.fna -dbtype nucl
+makeblastdb -out GCF_000457365.1_ASM45736v1_protein -in GCF_000457365.1_ASM45736v1_protein.faa -dbtype prot
 
-# # blastp for Bge actin
-# tblastn -db "${local_dir}"/auxillary/Bge_GCR_00457365 -query "${gh_dir}"/auxillary/Cg_actin.fasta -out "${gh_dir}"/actin.blastout -outfmt 6
+
+# # tblastn for Bge actin
+tblastn -db GCF_000457365.1_ASM45736v1_genomic -query Cg_actin.fasta -out actin.blastout -outfmt 6
+tblastn -db GCF_000457365.1_ASM45736v1_genomic -query Cg_actin.fasta -out actin.verbose.blastout
+
+blastp -db GCF_000457365.1_ASM45736v1_protein -query Cg_actin.fasta -out actin.blastpout -outfmt 6
+blastp -db GCF_000457365.1_ASM45736v1_protein -query Cg_actin.fasta -out actin.verbose.blastpout
 
 # get locus start/stop information
 cat actin.blastout | awk '{print $2 " " $9 " " $10 " " $11}' > actin.blastout.locus
