@@ -11,7 +11,7 @@
 # bwa index ~/data/Bgla/Bgla_nt.fa
 
 for fastq in ~/data/Bgla/SRA/*.gz; do
-	bwa mem -t 8 -p ~/data/Bgla/Bgla_nt.fa $fastq
+	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa -p $fastq
 done
 
 
