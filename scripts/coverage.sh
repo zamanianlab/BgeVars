@@ -1,5 +1,5 @@
 # BioSamples IDs for B. glabrata genome (paired end 454 reads)
-# SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 SRR024022 SRR024023 SRR024024 SRR024025 SRR024026 SRR024027 SRR024028 SRR024031 SRR024032 SRR024033 SRR024034 SRR024035 SRR024036 SRR024037 SRR024038 SRR024039 SRR024040 SRR024041"
+SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 SRR024022 SRR024023 SRR024024 SRR024025 SRR024026 SRR024027 SRR024028 SRR024031 SRR024032 SRR024033 SRR024034 SRR024035 SRR024036 SRR024037 SRR024038 SRR024039 SRR024040 SRR024041"
 
 # for id in SRR_list; do
 # 	fastq-dump $id --gzip -O ~/data/SRA/Bgla 
@@ -10,8 +10,9 @@
 
 # bwa index ~/data/Bgla/Bgla_nt.fa
 
-for fastq in ~/data/Bgla/SRA/*.gz; do
-	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa -p $fastq
+for id in SRR_list; do
+	gzip -dc ${id}.fastq.gz | deinterleave_fastq.sh < ${id}_1.fastq.gz ${id}_2.fastq.gz compress
+	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}_1.fastq.gz ~/data/Bgla/SRA/${id}_2.fastq.gz > ${id}.sam
 done
 
 
