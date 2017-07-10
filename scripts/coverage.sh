@@ -8,7 +8,8 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 
 for id in $SRR_list; do
 	fastq-dump --split-files $id -O ~/data/Bgla/SRA
-	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}_2.fastq ~/data/Bgla/SRA/${id}_4.fastq > ~/data/Bgla/SAM/${id}.sam
+	cat ${id}_2.fastq ${id}_4.fastq > ${id}.fastq
+	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}.fastq > ~/data/Bgla/SAM/${id}.sam
 done
 
 
