@@ -7,7 +7,7 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 # bwa index ~/data/Bgla/Bgla_nt.fa
 
 for id in $SRR_list; do
-	fastq-dump --split-files $id -O ~/data/Bgla/SRA
+	#fastq-dump --split-files $id -O ~/data/Bgla/SRA
 	cat ${id}_2.fastq ${id}_4.fastq > ${id}.fastq
 	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}.fastq > ~/data/Bgla/SAM/${id}.sam
 done
