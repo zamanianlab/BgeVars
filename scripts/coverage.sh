@@ -10,7 +10,7 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 
 # bwa index ~/data/Bgla/Bgla_nt.fa
 
-for id in SRR_list; do
+for id in $SRR_list; do
 	gzip -dc ${id}.fastq.gz | deinterleave_fastq.sh < ${id}_1.fastq.gz ${id}_2.fastq.gz compress
 	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}_1.fastq.gz ~/data/Bgla/SRA/${id}_2.fastq.gz > ${id}.sam
 done
