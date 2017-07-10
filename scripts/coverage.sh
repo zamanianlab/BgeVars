@@ -5,10 +5,10 @@
 # 	fastq-dump $id --gzip -O ~/data/SRA/Bgla 
 # done
 
-wget -O Bgla_nt.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.fna.gz
-zcat Bgla_nt.fa.gz > Bgla_nt.fa
+wget -O ~/data/Bgla/Bgla_nt.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.fna.gz
+zcat ~/data/Bgla/Bgla_nt.fa.gz > ~/data/Bgla/Bgla_nt.fa
 
-bwa index Bgla_nt.fa
+bwa index ~/data/Bgla/Bgla_nt.fa
 # bwa mem -t 8 -P Bgla_nt SRR024007_1.fastq SRR024007_2.fastq
 
 ### Calculate coverage 
