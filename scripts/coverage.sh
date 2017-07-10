@@ -12,9 +12,8 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 
 for id in $SRR_list; do
 	zcat ~/data/Bgla/SRA/${id}.fastq.gz > ~/data/Bgla/SRA/${id}.fastq
-	~/install/deinterleave_fastq.sh < ~/data/Bgla/SRA/${id}.fastq ~/data/Bgla/SRA/${id}_1.fastq.gz ~/data/Bgla/SRA/${id}_2.fastq.gz compress
-	rm ${id}.fastq
-	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}_1.fastq.gz ~/data/Bgla/SRA/${id}_2.fastq.gz > ${id}.sam
+	~/install/./deinterleave_fastq.sh < ~/data/Bgla/SRA/${id}.fastq ~/data/Bgla/SRA/${id}_1.fastq ~/data/Bgla/SRA/${id}_2.fastq
+	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}_1.fastq ~/data/Bgla/SRA/${id}_2.fastq > ~/data/Bgla/SAM/${id}.sam
 done
 
 
