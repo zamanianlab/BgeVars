@@ -1,16 +1,13 @@
 # BioSamples IDs for B. glabrata genome (paired end 454 reads)
 SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 SRR024022 SRR024023 SRR024024 SRR024025 SRR024026 SRR024027 SRR024028 SRR024031 SRR024032 SRR024033 SRR024034 SRR024035 SRR024036 SRR024037 SRR024038 SRR024039 SRR024040 SRR024041"
 
-for id in $SRR_list; do
-	fastq-dlesump --split-files $id --gzip -O ~/data/Bgla/SRA
-done
-
 # wget -nc -O ~/data/Bgla/Bgla_nt.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.fna.gz
 # zcat ~/data/Bgla/Bgla_nt.fa.gz > ~/data/Bgla/Bgla_nt.fa
 
 # bwa index ~/data/Bgla/Bgla_nt.fa
 
 for id in $SRR_list; do
+	fastq-dump --split-files $id --gzip -O ~/data/Bgla/SRA
 	zcat ~/data/Bgla/SRA/${id}.fastq.gz > ~/data/Bgla/SRA/${id}.fastq
 	~/install/./deinterleave_fastq.sh < ~/data/Bgla/SRA/${id}.fastq ~/data/Bgla/SRA/${id}_1.fastq ~/data/Bgla/SRA/${id}_2.fastq
 	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}_2.fastq ~/data/Bgla/SRA/${id}_4.fastq > ~/data/Bgla/SAM/${id}.sam
