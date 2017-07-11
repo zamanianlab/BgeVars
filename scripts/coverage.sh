@@ -8,15 +8,14 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 
 for id in $SRR_list; do
 	#fastq-dump --split-files $id -O ~/data/Bgla/SRA
-	cat ~/data/Bgla/SRA/${id}_2.fastq ~/data/Bgla/SRA/${id}_4.fastq > ~/data/Bgla/SRA/${id}.fastq
-	bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}.fastq > ~/data/Bgla/SAM/${id}.sam
+	# cat ~/data/Bgla/SRA/${id}_2.fastq ~/data/Bgla/SRA/${id}_4.fastq > ~/data/Bgla/SRA/${id}.fastq
+	# bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}.fastq > ~/data/Bgla/SAM/${id}.sam
+	samtools view -bS ~/data/Bgla/SAM/${id}.sam > ~/data/Bgla/BAM/${id}.unsorted.bam
+	samtools flagstat ~/data/Bgla/BAM/${id}.unsorted.bam
+	samtools sort -@ 8 -o ~/data/Bgla/BAM/${id}.bam ~/data/Bgla/BAM/${id}.unsorted.bam 
+	samtools index -b ~/data/Bgla/BAM/${id}.bam
+	## overall coverage
+	bedtools genomecov -ibam ~/data/Bgla/BAM/${id}.bam -bga > ~/data/Bgla/BAM/${id}.bedgraph
+	## per-base coverage
+	bedtools genomecov -ibam ~/data/Bgla/BAM/${id}.bam -d > ~/data/Bgla/BAM/${id}.bedgraph
 done
-
-
-### Calculate coverage 
-# overall coverage: 
-# bedtools genomecov -ibam ~/data/Bge/GCF_000457365.1_ASM45736v1_genomic.sorted.bam -bga > ~/data/Bge/snail.bam.bedgraph
-# vs (per base)
-# bedtools genomecov -ibam ~/data/Bge/GCF_000457365.1_ASM45736v1_genomic.sorted.bam -d > ~/data/Bge/snail.bam.bedgraph
-
-
