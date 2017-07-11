@@ -15,7 +15,7 @@ for id in $SRR_list; do
 	samtools sort -@ 8 -o ~/data/Bgla/BAM/${id}.bam ~/data/Bgla/BAM/${id}.unsorted.bam 
 	samtools index -b ~/data/Bgla/BAM/${id}.bam
 	## overall coverage
-	bedtools genomecov -ibam ~/data/Bgla/BAM/${id}.bam -bga > ~/data/Bgla/BAM/${id}.bedgraph
+	bedtools genomecov -ibam ~/data/Bgla/BAM/${id}.bam -bga > ~/data/Bgla/BAM/${id}.d.bedgraph
 	## per-base coverage
-	bedtools genomecov -ibam ~/data/Bgla/BAM/${id}.bam -d > ~/data/Bgla/BAM/${id}.bedgraph
+	bedtools genomecov -ibam ~/data/Bgla/BAM/${id}.bam -d > ~/data/Bgla/BAM/${id}.bga.bedgraph
 done
