@@ -16,7 +16,7 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 	# samtools index -b ~/data/Bgla/BAM/${id}.bam
 # done
 	
-samtools merge merge.bam ~/data/Bgla/BAM/*.bam 
+# samtools merge merge.bam ~/data/Bgla/BAM/*.bam 
 bedtools genomecov -ibam ~/data/Bgla/BAM/merge.bam -d > ~/data/Bgla/BAM/merge.d.bedgraph
 bedtools genomecov -ibam ~/data/Bgla/BAM/merge.bam -bga > ~/data/Bgla/BAM/merge.bga.bedgraph
 
