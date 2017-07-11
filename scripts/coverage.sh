@@ -6,7 +6,7 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 
 # bwa index ~/data/Bgla/Bgla_nt.fa
 
-for id in $SRR_list; do
+# for id in $SRR_list; do
 	#fastq-dump --split-files $id -O ~/data/Bgla/SRA
 	# cat ~/data/Bgla/SRA/${id}_2.fastq ~/data/Bgla/SRA/${id}_4.fastq > ~/data/Bgla/SRA/${id}.fastq
 	# bwa mem -t 8 ~/data/Bgla/Bgla_nt.fa ~/data/Bgla/SRA/${id}.fastq > ~/data/Bgla/SAM/${id}.sam
@@ -14,7 +14,7 @@ for id in $SRR_list; do
 	# samtools flagstat ~/data/Bgla/BAM/${id}.unsorted.bam
 	# samtools sort -@ 8 -o ~/data/Bgla/BAM/${id}.bam ~/data/Bgla/BAM/${id}.unsorted.bam 
 	# samtools index -b ~/data/Bgla/BAM/${id}.bam
-done
+# done
 	
 samtools merge merge.bam ~/data/Bgla/BAM/*.bam 
 bedtools genomecov -ibam ~/data/Bgla/BAM/merge.bam -d > ~/data/Bgla/BAM/merge.d.bedgraph
