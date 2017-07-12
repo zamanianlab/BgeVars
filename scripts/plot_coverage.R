@@ -1,8 +1,9 @@
 library(tidyverse)
+library(data.table)
 
 inputFile = "~/data/Bge/BGE.bga.bedgraph"
 
-all.data <- read.csv(inputFile, header = FALSE, sep = "\t")
+all.data <- fread(inputFile)
 
 filtered.data <- all.data %>%
   mutate(C_weight = V4*(V3-V2+1))
