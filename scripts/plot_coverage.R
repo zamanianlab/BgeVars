@@ -23,17 +23,20 @@ summ.data <- all.data %>%
 
 write.table(summ.data, "~/data/Bge/summ_data.csv", sep = "\t")
 
+summ.data <- fread("~/Box Sync/GHdata/Local_BgeVars/summ_data.csv") %>%
+  arrange(desc(C_length))
+
 summ.data$N <- seq.int(nrow(summ.data))
 
 p <- ggplot(data = summ.data, aes(x = N, y = C_ave)) +
   stat_bin_hex(bins = 500) + 
   theme_bw() +
-  xlab("Reference Start Position") +
+  xlab("Contigs Arranged by Size") +
   ylab("Coverage") +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(limits = c(0, 5000)) +
   ggtitle("Coverage Across Reference")
 
-
+ggsave("mapping_all.pdf", p, width = 12, height = 12)
 
 
