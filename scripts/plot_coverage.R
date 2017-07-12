@@ -19,12 +19,20 @@ summ.data <- all.data %>%
   mutate(C_weight = V4*L_len) %>%
   group_by(V1) %>%
   summarise(C_ave = sum(C_weight)/sum(L_len), C_length = max(V3)) %>%
-  arrange(desc(C_ave))
-
+  arrange(desc(C_length))
 
 write.table(summ.data, "~/data/Bge/summ_data.csv", sep = "\t")
 
+summ.data$N <- seq.int(nrow(summ.data))
 
+p <- ggplot(data = summ.data, aes(x = N, y = C_ave)) +
+  stat_bin_hex(bins = 500) + 
+  theme_bw() +
+  xlab("Reference Start Position") +
+  ylab("Coverage") +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(limits = c(0, 5000)) +
+  ggtitle("Coverage Across Reference")
 
 
 
