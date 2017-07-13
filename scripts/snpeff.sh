@@ -1,11 +1,11 @@
 #!bin/bash
 
-# Initialize directories
-boxdr=~/Box\ Sync
+### Define project directories
 proj="Local_BgeVars"
 
-gh_dir="${boxdr}/GitHub/${proj}"
-local_dir="${boxdr}/GHdata/${proj}"
+gh_dir="${GIT_PATH}/${proj}"
+local_dir="${GIT_DATA}/${proj}"
+
 
 # Specify a genome 'build' (Species_Verion)
 build="BglaB1.5"
@@ -40,11 +40,5 @@ gzcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
 snpEff build -gff3 -v ${build} -c ${genome_path}/../snpEff.config
 
 # Move VCF file to working directory
-#cp ~/Box\ Sync/working/snail/genome/BGE.vcf ${genome_path}/${build}
+cp ~/data/Bge/BGE.vcf ${genome_path}/${build}
 snpEff -v -csvStats -c ${genome_path}/../snpEff.config ${local_dir}/BGE.vcf ${build} > ${genome_path}/${build}/BGE.ann.vcf
-
-#measure length of each contig
-#cat bgl_1.5.fa | awk '$0 ~ ">" {print c; c=0; printf $1 "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' > key.txt
-
-#sort according to length
-#sort -rgk2 key.txt > sorted.key.txt
