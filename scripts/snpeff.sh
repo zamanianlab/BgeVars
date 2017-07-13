@@ -20,20 +20,20 @@ mkdir -p ${genome_path}/genomes
 echo "${build}.genome : B_glabrata" >> $genome_path/../snpEff.config
 
 # Download genome / Extract sequence 
-wget -O ${genome_path}/genomes/${build}.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.fna.gz
-gzcat ${genome_path}/genomes/${build}.fa.gz > ${genome_path}/genomes/${build}.fa
+wget -nc -O ${genome_path}/genomes/${build}.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.fna.gz
+zcat ${genome_path}/genomes/${build}.fa.gz > ${genome_path}/genomes/${build}.fa
 
 # Download/extract CDS
-wget -O ${genome_path}/${build}/cds.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_cds_from_genomic.fna.gz
-gzcat ${genome_path}/${build}/cds.fa.gz > ${genome_path}/${build}/cds.fa
+wget -nc -O ${genome_path}/${build}/cds.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_cds_from_genomic.fna.gz
+zcat ${genome_path}/${build}/cds.fa.gz > ${genome_path}/${build}/cds.fa
 
 # Download/extract proteins
-wget -O ${genome_path}/${build}/protein.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_protein.faa.gz
-gzcat ${genome_path}/${build}/protein.fa.gz > ${genome_path}/${build}/protein.fa
+wget -nc -O ${genome_path}/${build}/protein.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_protein.faa.gz
+zcat ${genome_path}/${build}/protein.fa.gz > ${genome_path}/${build}/protein.fa
 
 # Download/extract gff3
-wget -O ${genome_path}/${build}/genes.gff.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.gff.gz
-gzcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
+wget -nc -O ${genome_path}/${build}/genes.gff.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.gff.gz
+zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
 
 
 # Build genome 
@@ -41,4 +41,4 @@ snpEff build -gff3 -v ${build} -c ${genome_path}/../snpEff.config
 
 # Move VCF file to working directory
 cp ~/data/Bge/BGE.vcf ${genome_path}/${build}
-snpEff -v -csvStats -c ${genome_path}/../snpEff.config ${local_dir}/BGE.vcf ${build} > ${genome_path}/${build}/BGE.ann.vcf
+# snpEff -v -csvStats -c ${genome_path}/../snpEff.config ${local_dir}/BGE.vcf ${build} > ${genome_path}/${build}/BGE.ann.vcf
