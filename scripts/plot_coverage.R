@@ -8,9 +8,10 @@ bge.file = "~/data/Bge/BGE.bga.bedgraph"
 
 snail.data <- fread(snail.file)
 colnames(snail.data) <- c("Contig", "Start", "Stop", "Coverage")
+head(snail.data)
 bge.data <- fread(bge.file)
 colnames(bge.data) <- c("Contig", "Start", "Stop", "Coverage")
-
+head(bge.data)
 
 # summarize by taking a weighted average of coverage across the contig and getting the contig length
 snail.summ.data <- snail.data %>%
@@ -38,10 +39,17 @@ write.table(snail.summ.data, "~/data/Bgla/BAM/snail.summ.data.csv", sep = "\t")
 #   arrange(desc(C_length))
 # bge.summ.data <- fread("~/data/Bge/bge.summ.data.csv")
 # 
+# snail.summ.data <- read.table("~/Box Sync/ZamanianLab/LabMembers/Nic/temp/snail.summ.data.csv", sep = "\t") %>%
+#   arrange(desc(C_length))
+# bge.summ.data <- read.table("~/Box Sync/ZamanianLab/LabMembers/Nic/temp/bge.summ.data.csv", sep = "\t")
+# 
+# colnames(snail.summ.data) <- c("Contig", "C_ave", "C_length")
+# colnames(bge.summ.data) <- c("Contig", "C_ave", "C_length")
+# 
 # snail.summ.data$N <- seq.int(nrow(bge.summ.data))
 # 
 # b.p <- ggplot(data = bge.summ.data, aes(x = N, y = C_ave)) +
-#   stat_bin_hex(bins = 500) + 
+#   stat_bin_hex(bins = 500) +
 #   theme_bw() +
 #   xlab("Contigs Arranged by Size") +
 #   ylab("Coverage") +
@@ -50,6 +58,6 @@ write.table(snail.summ.data, "~/data/Bgla/BAM/snail.summ.data.csv", sep = "\t")
 #   ggtitle("Coverage Across Reference")
 # 
 # ggsave("mapping_all.pdf", p, width = 12, height = 12)
-# 
+
 
 
