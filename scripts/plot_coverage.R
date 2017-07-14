@@ -43,7 +43,7 @@ bge.summ.data <- read.table("~/Box Sync/ZamanianLab/LabMembers/Nic/temp/bge.summ
 snail.df <- snail.summ.data #%>%
   #arrange(desc(C_ave))
 bge.df <- bge.summ.data %>%
-  arrange(desc(C_ave))
+  arrange(desc(C_length))
 
 # rename columns to prepare for merging
 colnames(snail.df)[2] <- "S.C_ave"
@@ -82,8 +82,10 @@ ggsave("Bge_snail_coverage.pdf", b.p, width = 12, height = 12)
 t.df <- select(merge.df, -N) %>%
   mutate(Diff = B.C_ave_norm - S.C_ave_norm) %>%
   mutate(Group = rep("group", length(Contig))) %>%
-  arrange(desc(C_length)) %>%
-  mutate(N = seq.int(nrow(t.df)))
+  arrange(desc(C_length))
+
+
+t.df <-  mutate(t.df, N = seq.int(nrow(t.df)))
 
 
 t.p <- ggplot(data = t.df, aes(x = N, y = Diff)) +
@@ -94,7 +96,7 @@ t.p <- ggplot(data = t.df, aes(x = N, y = Diff)) +
   ylab("Bge coverage - Snail coverage")
 t.p
 
-
+ggsave("diff.pdf", t.p, width = 12, height = 12)
 
 
 
