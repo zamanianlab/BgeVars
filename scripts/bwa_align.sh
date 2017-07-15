@@ -7,8 +7,8 @@ proj="Local_BgeVars"
 # zcat ${GIT_DATA}/${proj}/BglaB1.fa.gz > ${GIT_DATA}/${proj}/BglaB1.fa
 
 # bwa index ${GIT_DATA}/${proj}/BglaB1.fa
-zcat  ${GIT_DATA}/${proj}/CA301ANXX_P1.fastq.gz > ${GIT_DATA}/${proj}/CA301ANXX_P1.fastq
-zcat ${GIT_DATA}/${proj}/CA301ANXX_P2.fastq.gz > ${GIT_DATA}/${proj}/CA301ANXX_P2.fastq
+zcat  ${GIT_DATA}/${proj}/CA301ANXX_P1.fq.gz > ${GIT_DATA}/${proj}/CA301ANXX_P1.fastq
+zcat ${GIT_DATA}/${proj}/CA301ANXX_P2.fq.gz > ${GIT_DATA}/${proj}/CA301ANXX_P2.fastq
 bwa mem -t 4 ${GIT_DATA}/${proj}/BglaB1.fa ${GIT_DATA}/${proj}/CA301ANXX_P1.fastq ${GIT_DATA}/${proj}/CA301ANXX_P2.fastq > ${GIT_DATA}/${proj}/CA301ANXX.sam
 samtools view -bS ${GIT_DATA}/${proj}/CA301ANXX.sam > ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam
 samtools flagstat ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam
