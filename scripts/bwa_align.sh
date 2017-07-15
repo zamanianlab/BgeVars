@@ -1,10 +1,12 @@
 # Project
 proj="Local_BgeVars"
 
+trimmomatic PE -phred33 -threads 4 CA301ANXX_1.fastq.gz CA301ANXX_2.fastq.gz CA301ANXX_P1.fq.gz CA301ANXX_U1.fq.gz CA301ANXX_P2.fq.gzCA301ANXX_U2.fq.gz ILLUMINACLIP:${GIT_PATH}/${proj}/auxillary/TruSeq3-PE-2.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:15
+
 wget -nc -O ${GIT_DATA}/${proj}/BglaB1.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02scaffoldsbglab1fagz
 zcat ${GIT_DATA}/${proj}/BglaB1.fa.gz > ${GIT_DATA}/${proj}/BglaB1.fa
 
-bwa index ${GIT_DATA}/${proj}/BglaB1.fa
+# bwa index ${GIT_DATA}/${proj}/BglaB1.fa
 bwa mem -t 4 ${GIT_DATA}/${proj}/BglaB1.fa ${GIT_DATA}/${proj}/CA301ANXX_1.fastq.gz ${GIT_DATA}/${proj}/CA301ANXX_2.fastq.gz > ${GIT_DATA}/${proj}/CA301ANXX.sam
 samtools view -bS ${GIT_DATA}/${proj}/CA301ANXX.sam > ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam
 samtools flagstat ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam
