@@ -11,7 +11,7 @@ for id in $SRR_list; do
 	zcat ${GIT_DATA}/${proj}/snail/${id}_2.fastq.gz > ${GIT_DATA}/${proj}/snail/${id}_2.fastq
 	zcat ${GIT_DATA}/${proj}/snail/${id}_4.fastq.gz > ${GIT_DATA}/${proj}/snail/${id}_4.fastq
 	cat ${GIT_DATA}/${proj}/snail/${id}_2.fastq ${GIT_DATA}/${proj}/snail/${id}_4.fastq > ${GIT_DATA}/${proj}/snail/${id}.fastq
-	bwa mem -t 4 ${GIT_DATA}/${proj}/Bgla_nt.fa ${GIT_DATA}/${proj}/snail/${id}.fastq > ${GIT_DATA}/${proj}/snail/${id}.sam
+	bwa mem -t 4 ${GIT_DATA}/${proj}/BglaB1.fa ${GIT_DATA}/${proj}/snail/${id}.fastq > ${GIT_DATA}/${proj}/snail/${id}.sam
 	samtools view -@ 4 -bS ${GIT_DATA}/${proj}/snail/${id}.sam > ${GIT_DATA}/${proj}/snail/${id}.unsorted.bam
 	samtools flagstat ${GIT_DATA}/${proj}/snail/${id}.unsorted.bam
 	samtools sort -@ 4 -m 2G ${GIT_DATA}/${proj}/snail/${id}.unsorted.bam -o ${GIT_DATA}/${proj}/snail/${id}.bam
