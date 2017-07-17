@@ -13,7 +13,8 @@ proj="Local_BgeVars"
 samtools view -@ 4 -bS ${GIT_DATA}/${proj}/CA301ANXX.sam > ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam
 # samtools flagstat ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam
 samtools sort -@ 4 -m 2G -o ${GIT_DATA}/${proj}/CA301ANXX.bam ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam 
-# rm ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam 
+# rm ${GIT_DATA}/${proj}/CA301ANXX.unsorted.bam
+zcat -c ${GIT_DATA}/${proj}/CA301ANXX.bam > ${GIT_DATA}/${proj}/CA301ANXX.bam.gz
 samtools index -@ 4 -b ${GIT_DATA}/${proj}/CA301ANXX.bam
 	
 # samtools merge merge.bam ~/data/Bgla/BAM/*.bam 
