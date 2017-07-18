@@ -19,8 +19,8 @@ SRR_list="SRR024007 SRR024008 SRR024017 SRR024018 SRR024019 SRR024020 SRR024021 
 # done
 	
 # samtools merge -@ 4 ${GIT_DATA}/${proj}/snail/snail.bam ${GIT_DATA}/${proj}/snail/*.bam 
-samtools sort -@ 4 -m 3G ${GIT_DATA}/${proj}/snail/snail.bam -o ${GIT_DATA}/${proj}/snail/snail.sorted.bam
+# samtools sort -@ 4 -m 3G ${GIT_DATA}/${proj}/snail/snail.bam -o ${GIT_DATA}/${proj}/snail/snail.sorted.bam
 # bedtools genomecov -ibam ~/data/Bgla/BAM/merge.bam -d > ~/data/Bgla/BAM/merge.d.bedgraph
 # bedtools genomecov -ibam ~/data/Bgla/BAM/merge.bam -bga > ~/data/Bgla/BAM/merge.bga.bedgraph
-bedtools genomecov -ibam ${GIT_DATA}/${proj}/snail/snail.bam -bga > ${GIT_DATA}/${proj}/snail/snail.bga.bedgraph
+bedtools genomecov -ibam ${GIT_DATA}/${proj}/snail/snail.sorted.bam -bga > ${GIT_DATA}/${proj}/snail/snail.bga.bedgraph
 # bedtools genomecov -ibam ~/data/Bge/GCF_000457365.1_ASM45736v1_genomic.sorted.bam -d > ~/data/Bgla/BAM/BGE.d.bedgraph
