@@ -1,29 +1,30 @@
 library(tidyverse)
 library(data.table)
 
-setwd("~/Box Sync/GHdata/Local_BgeVars/")
+setwd("~/Box Sync/GHdata/BgeVars/")
 
 # read in bedgraph files
 snail.file = "snail.bga.bedgraph"
 bge.file = "CA301ANXX.bga.bedgraph"
 snail.data <- fread(snail.file)
-colnames(snail.data) <- c("Contig", "Start", "Stop", "Coverage")
+colnames(snail.data) <- c("Scaffold", "Start", "Stop", "Coverage")
 bge.data <- fread(bge.file)
-colnames(bge.data) <- c("Contig", "Start", "Stop", "Coverage")
+colnames(bge.data) <- c("Scaffold", "Start", "Stop", "Coverage")
 
 
-# summarize by taking a weighted average of coverage across the contig and getting the contig length
+# Locus_Coverage is the coverage weighted by length 
+# The average coverage for the entire contig is the sum Locus_Coverage divided by the Contig_Length
 snail.summ.data <- snail.data %>%
-  mutate(C_weight = Coverage*(Stop-Start+1)) %>%
-  group_by(Contig) %>%
-  summarise(C_ave = sum(C_weight)/sum(Stop-Start+1), C_length = max(Stop)) %>%
-  arrange(desc(C_length))
+  mutate(Locus_Coverage = Coverage*(Stop-Start+1)) %>%
+  group_by(Scaffold) %>%
+  summarise(Scaffold_Coverage = sum(Locus_Coverage)/(max(Stop) + 1), Scaffold_Length = (max(Stop) + 1)) %>%
+  arrange(desc(Scaffold_Length))
 
 bge.summ.data <- bge.data %>%
-  mutate(C_weight = Coverage*(Stop-Start+1)) %>%
-  group_by(Contig) %>%
-  summarise(C_ave = sum(C_weight)/sum(Stop-Start+1), C_length = max(Stop)) %>%
-  arrange(desc(C_length))
+  mutate(Locus_Coverage = Coverage*(Stop-Start+1)) %>%
+  group_by(Scaffold) %>%
+  summarise(Scaffold_Coverage = sum(Locus_Coverage)/max(Stop+1), Scaffold_length = (max(Stop + 1))) %>%
+  arrange(desc(Scaffold_length))
 
 save(snail.summ.data, file = "snail.summ.data.rda")
 save(bge.summ.data, file = "bge.summ.data.rda")
@@ -37,15 +38,15 @@ snail.df <- snail.summ.data
 bge.df <- bge.summ.data
 
 # rename columns to prepare for merging
-colnames(snail.df)[2] <- "S.C_ave"
-colnames(bge.df)[2] <- "B.C_ave"
+colnames(snail.df)[2] <- "Snail_Contig_Coverage"
+colnames(bge.df)[2] <- "Bge_Contig_Coverage"
 # merge data into a single data frame
 merge.df <- left_join(bge.df, snail.df)
 # add linkage group (LG) information as a new column, prepare by renaming Scaffolds to match with scaffold_mapping.txt
 name <- strsplit(as.character(merge.df$Contig), split = "_")
 name <- matrix(unlist(name), ncol = 3, byrow = TRUE)
 name <- data.frame(name)
-merge.df <- mutate(merge.df, new_Contig = as.factor(name$X3))
+merge.df$Contig <- name$X3
 LG_mapping <- read.table("scaffold_mapping.txt", sep = " ", header = TRUE)
 colnames(LG_mapping)[1] <- "new_Contig"
 all.df <- left_join(merge.df, LG_mapping)
