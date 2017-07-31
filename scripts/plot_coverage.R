@@ -2,6 +2,7 @@ library(tidyverse)
 library(ggjoy)
 library(data.table)
 library(stats)
+library(ggrepel)
 
 setwd("~/Box Sync/GHdata/BgeVars/")
 
@@ -67,6 +68,24 @@ all.df.norm <- select(all.df, Scaffold, Scaffold_Length, Snail_Scaffold_Coverage
   mutate(Snail_Scaffold_Coverage_Norm = Snail_Scaffold_Coverage * Scaffold_Length / sum(Snail_Scaffold_Coverage*Scaffold_Length)) %>%
   mutate(Bge_Scaffold_Coverage_Norm = Bge_Scaffold_Coverage * Scaffold_Length / sum(Bge_Scaffold_Coverage*Scaffold_Length))
 
+#############################################################################
+all.df.norm.m <- gather(all.df.norm, key = Coverage_Type, value = Value, Snail_Scaffold_Coverage, Bge_Scaffold_Coverage, Snail_Scaffold_Coverage_Norm, Bge_Scaffold_Coverage_Norm) %>%
+  separate(Coverage_Type, into = c("ID", "Coverage_Type"), sep = "_Scaffold_Coverage")
+
+
+temp.df <- select(all.df.norm, -Bge_Scaffold_Coverage_Norm, -Snail_Scaffold_Coverage_Norm) %>%
+  mutate(Index = row_number()) %>%
+  melt(id = c("Scaffold", "Scaffold_Length", "LGs", "Index")) %>%
+  filter(Scaffold_Length > 10000) 
+
+
+p <- ggplot(temp.df, aes(x = Index, y = log2(arrange(desc(value))), group = LGs)) +
+  geom_point(aes(colour = variable), size = 1) +
+  facet_wrap(~ variable , scale="free")
+p
+
+
+#############################################################################
 s.test <- sum(all.df.rescale$Snail_Scaffold_Coverage_Rescale)
 b.test <- sum(all.df.rescale$Bge_Scaffold_Coverage_Rescale)
 
@@ -170,12 +189,14 @@ quantiles <- t.df %>%
 outliers <- t.df %>%
   select(-N) %>%
   group_by(LGs) %>%
-  filter(Difference > ((quantile(Difference)[4] - quantile(Difference)[2]) * 1.5 + quantile(Difference)[4]) | Difference < (quantile(Difference)[2] - (quantile(Difference)[4] - quantile(Difference)[2]) * 1.5)) %>%
-  mutate(Outlier = "Outlier")
+  mutate(logD = log(abs(Difference))) %>%
+  filter(logD > ((quantile(logD)[4] - quantile(logD)[2]) * 1.5 + quantile(logD)[4]) | logD < (quantile(logD)[2] - (quantile(logD)[4] - quantile(logD)[2]) * 1.5)) %>%
+  mutate(Outlier = TRUE)
 
-t.df <- left_join(t.df, outliers)
+t.df <- left_join(t.df, outliers) %>%
+  select(-logD)
 
-t.p <- ggplot(data = t.df, aes(x = N, y = log(Difference))) +
+t.p <- ggplot(data = t.df, aes(x = N, y = log(abs(Difference)))) +
   geom_point(size=0.1, alpha=0.2) +
   geom_boxplot(aes(group = LGs), outlier.color = "red") +
   theme_bw() + 
@@ -184,12 +205,13 @@ t.p <- ggplot(data = t.df, aes(x = N, y = log(Difference))) +
   theme(axis.text.x=element_blank(),
              axis.ticks.x=element_blank()) +
   facet_wrap(~LGs, scales = "free_x", nrow = 3) +
-  geom_text(data = subset(t.df, Outlier == "Outlier"), aes(label = Scaffold), na.rm = TRUE)
+  geom_text_repel(data = subset(t.df, Outlier == TRUE), aes(label = Scaffold), size = 1, point.padding = NA)
 t.p
 
 
 
 ggsave("diff.pdf", t.p, width = 12, height = 12)
+ggsave("diff.png", t.p, width = 12, height = 12)
 
 
 
