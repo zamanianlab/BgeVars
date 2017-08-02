@@ -20,25 +20,32 @@ mkdir -p ${genome_path}/genomes
 echo "${build}.genome : B_glabrata" >> $genome_path/../snpEff.config
 
 # Download genome / Extract sequence 
-wget -nc -O ${genome_path}/genomes/${build}.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.fna.gz
+wget -nc -O ${genome_path}/genomes/${build}.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02scaffoldsbglab1fagz
 zcat ${genome_path}/genomes/${build}.fa.gz > ${genome_path}/genomes/${build}.fa
 
 # Download/extract CDS
-wget -nc -O ${genome_path}/${build}/cds.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_cds_from_genomic.fna.gz
+wget -nc -O ${genome_path}/${build}/cds.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02transcriptsbglab15fagz
 zcat ${genome_path}/${build}/cds.fa.gz > ${genome_path}/${build}/cds.fa
 
 # Download/extract proteins
-wget -nc -O ${genome_path}/${build}/protein.fa.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_protein.faa.gz
+wget -nc -O ${genome_path}/${build}/protein.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02peptidesbglab15fagz
 zcat ${genome_path}/${build}/protein.fa.gz > ${genome_path}/${build}/protein.fa
 
-# Download/extract gff3
-wget -nc -O ${genome_path}/${build}/genes.gff.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/457/365/GCF_000457365.1_ASM45736v1/GCF_000457365.1_ASM45736v1_genomic.gff.gz
-zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
+# Download/extract gtf
+wget -nc -O ${genome_path}/${build}/genes.gff.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02basefeaturesbglab15gtfgz
+zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gtf
 
 
 # Build genome 
-snpEff build -gff3 -v ${build} -c ${genome_path}/../snpEff.config
+snpEff build -gtf22 -v ${build} -c ${genome_path}/../snpEff.config
 
 # Move VCF file to working directory
-cp ~/data/Bge/BGE.vcf ${genome_path}/${build}
+# cp ~/data/Bge/BGE.vcf ${genome_path}/${build}
 # snpEff -v -csvStats -c ${genome_path}/../snpEff.config ${local_dir}/BGE.vcf ${build} > ${genome_path}/${build}/BGE.ann.vcf
+
+
+
+
+
+
+

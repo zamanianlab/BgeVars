@@ -68,24 +68,6 @@ all.df.norm <- select(all.df, Scaffold, Scaffold_Length, Snail_Scaffold_Coverage
   mutate(Snail_Scaffold_Coverage_Norm = Snail_Scaffold_Coverage * Scaffold_Length / sum(Snail_Scaffold_Coverage*Scaffold_Length)) %>%
   mutate(Bge_Scaffold_Coverage_Norm = Bge_Scaffold_Coverage * Scaffold_Length / sum(Bge_Scaffold_Coverage*Scaffold_Length))
 
-#############################################################################
-all.df.norm.m <- gather(all.df.norm, key = Coverage_Type, value = Value, Snail_Scaffold_Coverage, Bge_Scaffold_Coverage, Snail_Scaffold_Coverage_Norm, Bge_Scaffold_Coverage_Norm) %>%
-  separate(Coverage_Type, into = c("ID", "Coverage_Type"), sep = "_Scaffold_Coverage")
-
-
-temp.df <- select(all.df.norm, -Bge_Scaffold_Coverage_Norm, -Snail_Scaffold_Coverage_Norm) %>%
-  mutate(Index = row_number()) %>%
-  melt(id = c("Scaffold", "Scaffold_Length", "LGs", "Index")) %>%
-  filter(Scaffold_Length > 10000) 
-
-
-p <- ggplot(temp.df, aes(x = Index, y = log2(arrange(desc(value))), group = LGs)) +
-  geom_point(aes(colour = variable), size = 1) +
-  facet_wrap(~ variable , scale="free")
-p
-
-
-#############################################################################
 s.test <- sum(all.df.rescale$Snail_Scaffold_Coverage_Rescale)
 b.test <- sum(all.df.rescale$Bge_Scaffold_Coverage_Rescale)
 
@@ -126,6 +108,53 @@ ggsave("coverage_normalize.pdf", b.p, width = 15, height = 12)
 
 #### probing the data ####
 
+all.df.norm.m <- gather(all.df.norm, key = Coverage_Type, value = Value, Snail_Scaffold_Coverage, Bge_Scaffold_Coverage, Snail_Scaffold_Coverage_Norm, Bge_Scaffold_Coverage_Norm) %>%
+  separate(Coverage_Type, into = c("ID", "Coverage_Type"), sep = "_Scaffold_Coverage")
+
+dot.df <- select(all.df.norm, -Bge_Scaffold_Coverage_Norm, -Snail_Scaffold_Coverage_Norm)
+
+dot.m <- dot.df %>%
+  filter(Scaffold_Length > 10000) %>%
+  arrange(LGs) %>% group_by(LGs) %>%
+  mutate(Index = row_number()) %>%
+  melt(id = c("Scaffold", "Scaffold_Length", "LGs", "Index")) 
+
+dot.summ <- dot.m %>% 
+  group_by(LGs, variable) %>%
+  summarise(med = median(value)) %>%
+  mutate(lm = log2(med))
+
+bge.dot.summ <- subset(dot.summ, variable == "Bge_Scaffold_Coverage")
+
+bge.dot.p <- ggplot(data = subset(dot.m, variable == "Bge_Scaffold_Coverage"), aes(x = LGs, y = log2(value), group = LGs)) +
+  geom_jitter(aes(colour = LGs)) +
+  facet_wrap(~ LGs, scale = "free_x", nrow = 1) +
+  geom_hline(data = subset(dot.summ, variable == "Bge_Scaffold_Coverage"), aes(yintercept = lm)) + 
+  scale_y_discrete(name = "log2(Coverage)", limits = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) +
+  ylim(0,10) +
+  theme(legend.position = "none") +
+  geom_text(data = bge.dot.summ, size = 2.5, aes( x = LGs, y = 10, label = paste("median =\n", plyr::round_any(med, 0.001, ceiling))))
+bge.dot.p
+
+
+ggsave("BGE_coverage_dotplot.png", bge.dot.p, width = 18, height = 6)
+ggsave("BGE_coverage_dotplot.pdf", bge.dot.p, width = 18, height = 6)
+
+snail.dot.summ <- subset(dot.summ, variable == "Snail_Scaffold_Coverage")
+
+snail.dot.p <- ggplot(data = subset(dot.m, variable == "Snail_Scaffold_Coverage"), aes(x = LGs, y = log2(value), group = LGs)) +
+  geom_jitter(aes(colour = LGs)) +
+  facet_wrap(~ LGs, scale = "free_x", nrow = 1) +
+  geom_hline(data = subset(dot.summ, variable == "Snail_Scaffold_Coverage"), aes(yintercept = lm)) + 
+  ylim(c(0,10)) +
+  scale_y_discrete(name = "log2(Coverage)", limits = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) +
+  theme(legend.position = "none") +
+  geom_text(data = snail.dot.summ, size = 2.5, aes( x = LGs, y = 10, label = paste("median =\n", plyr::round_any(med, 0.001, ceiling))))
+snail.dot.p
+
+ggsave("Snail_coverage_dotplot.png", snail.dot.p, width = 18, height = 6)
+ggsave("Snail_coverage_dotplot.pdf", snail.dot.p, width = 18, height = 6)
+
 # histograms of scaffold coverages, grouped by linkage group
 hist.df <- select(plot.df, Snail_Scaffold_Coverage_Norm, Bge_Scaffold_Coverage_Norm, LGs)
 hist.m <- melt(hist.df, id ="LGs")
@@ -133,8 +162,6 @@ hist.p <- ggplot(data = hist.m, aes(x = log2(value), y = as.factor(LGs), fill = 
   geom_joy(alpha = 0.3, scale = 0.9) +
   scale_x_continuous(limits = c(-20, -10))
 hist.p
-
-ggsave("total_coverage_distributions.png", all.p, width = 12, height = 12)
 
 # statistics
 test.df <- select(plot.df, Scaffold, LGs, Snail_Scaffold_Coverage_Norm, Bge_Scaffold_Coverage_Norm) %>%
@@ -153,6 +180,7 @@ hist.p <- hist.p +
   ylab("Density per Linkage Group") + 
   scale_fill_discrete(name = "Genome",
                       labels = c("Biomphalaria glabrata", "Bge cell line - Yoshino"))
+hist.p
 
 ggsave("LG_coverage_distributions.png", hist.p, width = 12, height = 12)
 ggsave("LG_coverage_distributions.pdf", hist.p, width = 12, height = 12)
