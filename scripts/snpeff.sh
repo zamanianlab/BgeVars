@@ -37,7 +37,7 @@ zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gtf
 
 
 # Build genome 
-snpEff build -gtf22 -v ${build} -c ${genome_path}/../snpEff.config
+snpEff build -gtf22 -v ${build}
 
 # Move VCF file to working directory
 # cp ~/data/Bge/BGE.vcf ${genome_path}/${build}
