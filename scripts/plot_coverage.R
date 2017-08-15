@@ -4,7 +4,7 @@ library(data.table)
 library(stats)
 library(ggrepel)
 
-setwd("~/Box Sync/GHdata/BgeVars/")
+setwd("~/Box Sync/GHdata/BgeVars/plotting")
 
 # read in bedgraph files
 snail.file = "snail.bga.bedgraph"
@@ -113,6 +113,8 @@ all.df.norm.m <- gather(all.df.norm, key = Coverage_Type, value = Value, Snail_S
 
 dot.df <- select(all.df.norm, -Bge_Scaffold_Coverage_Norm, -Snail_Scaffold_Coverage_Norm)
 
+
+
 dot.m <- dot.df %>%
   filter(Scaffold_Length > 10000) %>%
   arrange(LGs) %>% group_by(LGs) %>%
@@ -121,19 +123,28 @@ dot.m <- dot.df %>%
 
 dot.summ <- dot.m %>% 
   group_by(LGs, variable) %>%
-  summarise(med = median(value)) %>%
+  summarise(med = median(value), ave = sum(Scaffold_Length * value) / sum(Scaffold_Length)) %>%
   mutate(lm = log2(med))
 
 bge.dot.summ <- subset(dot.summ, variable == "Bge_Scaffold_Coverage")
 
-bge.dot.p <- ggplot(data = subset(dot.m, variable == "Bge_Scaffold_Coverage"), aes(x = LGs, y = log2(value), group = LGs)) +
+linkage_order <- dot.summ %>%
+  arrange(desc(ave)) %>%
+  filter(variable == "Bge_Scaffold_Coverage")
+linkage_order <- linkage_order$LGs
+
+dot.m$LGs <- factor(dot.m$LGs, levels = c(linkage_order))
+
+bge.dot.p <- ggplot(data = subset(dot.m, variable == "Bge_Scaffold_Coverage"), aes(x = LGs, y = value, group = LGs)) +
   geom_jitter(aes(colour = LGs)) +
   facet_wrap(~ LGs, scale = "free_x", nrow = 1) +
-  geom_hline(data = subset(dot.summ, variable == "Bge_Scaffold_Coverage"), aes(yintercept = lm)) + 
-  scale_y_discrete(name = "log2(Coverage)", limits = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) +
-  ylim(0,10) +
+  #geom_hline(data = subset(dot.summ, variable == "Bge_Scaffold_Coverage"), aes(yintercept = med), color = "blue") + 
+  geom_hline(data = subset(dot.summ, variable == "Bge_Scaffold_Coverage"), aes(yintercept = ave), color = "red") +
+  #scale_y_discrete(name = "log2(Coverage)", limits = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) +
+  ylim(0,150) +
   theme(legend.position = "none") +
-  geom_text(data = bge.dot.summ, size = 2.5, aes( x = LGs, y = 10, label = paste("median =\n", plyr::round_any(med, 0.001, ceiling))))
+  #geom_text(data = bge.dot.summ, size = 2.5, aes( x = LGs, y = 10, label = paste("median =\n", plyr::round_any(med, 0.001, ceiling))))
+  geom_text(data = bge.dot.summ, size = 2.5, aes( x = LGs, y = 10, label = paste("average =\n", plyr::round_any(ave, 0.001, ceiling))))
 bge.dot.p
 
 
