@@ -4,7 +4,7 @@
 proj="BgeVars"
 
 gh_dir="${GIT_PATH}/${proj}"
-local_dir="${GIT_DATA}/${proj}/Bge"
+local_dir="${GIT_DATA}/${proj}"
 
 ### variant calling
 # -Ou pipe as uncompressed BCF (binary)
@@ -14,46 +14,37 @@ local_dir="${GIT_DATA}/${proj}/Bge"
 # -m alt model for calling multiple alleles
 # -v output variant sites only
 # bcftools mpileup -Ou -C50 --threads 4 -f "${local_dir}/BglaB1.5.fa" "${local_dir}/CA301ANXX.bam" | bcftools call -mv --threads 4 -A -Oz  > "${local_dir}/bcftools.raw.bcf"
-bcftools view -Oz --threads 4 "${local_dir}/bcftools.raw.bcf" -o "${local_dir}/bcftools.vcf.gz"
+# bcftools view -Oz --threads 4 "${local_dir}/bcftools.raw.bcf" -o "${local_dir}/bcftools.vcf.gz"
 
-### convert VCF to TSV
-# vcf2tsv  "${local_dir}/BGE.VB.vcf" > "${local_dir}/BGE.VB.tsv"
-### get AO and RO columns
-# awk '{print $1 "\t" $2 "\t" $6 "\t" $13 "\t" $36}' "${local_dir}/BGE.VB.tsv" > "${local_dir}/BGE.VB.AORO.tsv"
+### get relevant INFO tags
+# bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.vcf" > "${local_dir}/bcftools.dp4.vcf"
 
 ### extract SNPs and filter
-# After filtering, kept 12968754 out of a possible 18957644 Sites
-# vcftools --vcf "${local_dir}/BGE.VB.vcf" --remove-indels --recode --recode-INFO-all --out "${local_dir}/BGE.VB.snp.vcf"
-# mv  "${local_dir}/BGE.VB.snp.vcf.recode.vcf"  "${local_dir}/BGE.VB.snp.vcf"
-### convert to TSV
-# vcf2tsv  "${local_dir}/BGE.VB.snp.vcf" > "${local_dir}/BGE.VB.snp.tsv"
-### get AO and RO columns
-# awk '{print $1 "\t" $2 "\t" $6 "\t" $13 "\t" $36}' "${local_dir}/BGE.VB.snp.tsv" > "${local_dir}/BGE.VB.snp.AORO.tsv"
+# After filtering, kept 10489715 out of a possible 12618001 Sites
+# vcftools --vcf "${local_dir}/bcftools.vcf" --remove-indels --recode --recode-INFO-all --out "${local_dir}/bcftools.snp.vcf"
+# mv  "${local_dir}/bcftools.snp.vcf.recode.vcf"  "${local_dir}/bcftools.snp.vcf"
+### get relevant INFO tags
+# bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.snp.vcf" > "${local_dir}/bcftools.snp.dp4.vcf"
 
 ### continue filtering
-
-### filter out variants that have all alternative observations coming from one pair of the reads
-#  3394272
-# vcffilter -f "PAIRED > 0.05 & PAIREDR > 0.05 & PAIREDR / PAIRED < 1.75 & PAIREDR / PAIRED > 0.25 | PAIRED < 0.05 & PAIREDR < 0.05" -s "${local_dir}/BGE.VB.snp.vcf" > "${local_dir}/BGE.VB.snp.fil1.vcf"
-### convert to TSV
-# vcf2tsv  "${local_dir}/BGE.VB.snp.fil1.vcf" > "${local_dir}/BGE.VB.snp.fil1.tsv"
-### get AO and RO columns
-# awk '{print $1 "\t" $2 "\t" $6 "\t" $13 "\t" $36}' "${local_dir}/BGE.VB.snp.fil1.tsv" > "${local_dir}/BGE.VB.snp.fil1.AORO.tsv"
+### only keep bi- or tri-allelic sites
+# 
+vcftools --vcf "${local_dir}/bcftools.snp.vcf"  --min-alleles 2 --max-alleles 3 --recode --recode-INFO-all --out "${local_dir}/bcftools.snp.fil1.vcf"
+mv  "${local_dir}/bcftools.snp.fil1.vcf.recode.vcf"  "${local_dir}/bcftools.snp.fil1.vcf"
+### get relevant INFO tags
+bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.snp.fil1.vcf" > "${local_dir}/bcftools.snp.fil1.dp4.vcf"
 
 ### filter out variants that have quality less than 1/4 of the depth
-# 3392758
-# vcffilter -f "QUAL / DP > 0.25" "${local_dir}/BGE.VB.snp.fil1.vcf" > "${local_dir}/BGE.VB.snp.fil2.vcf"
-### convert to TSV
-# vcf2tsv  "${local_dir}/BGE.VB.snp.fil2.vcf" > "${local_dir}/BGE.VB.snp.fil2.tsv"
-### get AO and RO columns
-# awk '{print $1 "\t" $2 "\t" $6 "\t" $13 "\t" $36}' "${local_dir}/BGE.VB.snp.fil2.tsv" > "${local_dir}/BGE.VB.snp.fil2.AORO.tsv"
+# 
+vcffilter -f "QUAL / DP > 0.25" "${local_dir}/bcftools.snp.fil1.vcf" > "${local_dir}/bcftools.snp.fil2.vcf"
+### get relevant INFO tags
+bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.snp.fil2.vcf" > "${local_dir}/bcftools.snp.fil2.dp4.vcf"
 
 ### recode to a new VCF
-# After filtering, kept 3392758 out of a possible 3392758 Sites
-# vcftools --vcf  "${local_dir}/BGE.VB.snp.fil2.vcf" --recode-INFO-all --out "${local_dir}/BGE.VB.snp.fil3" --recode 
-### convert to TSV
-# vcf2tsv  "${local_dir}BGE.VB.snp.fil3.recode.vcf" > "${local_dir}/BGE.VB.snp.fil3.tsv"
-# get AO and RO columns
-# awk '{print $1 "\t" $2 "\t" $6 "\t" $13 "\t" $36}' "${local_dir}/BGE.VB.snp.fil3.tsv" > "${local_dir}/BGE.VB.snp.fil3.AORO.tsv"
+# After filtering, kept 10371439 out of a possible 10371439 Sites
+vcftools --vcf  "${local_dir}/bcftools.snp.fil2.vcf" --recode-INFO-all --out "${local_dir}/bcftools.snp.fil3.vcf" --recode 
+mv  "${local_dir}/bcftools.snp.fil3.vcf.recode.vcf"  "${local_dir}/bcftools.snp.fil3.vcf"
+### get relevant INFO tags
+bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.snp.fil3.vcf" > "${local_dir}/bcftools.snp.fil3.dp4.vcf"
 
 ### can filter allele counts in R
