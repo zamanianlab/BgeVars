@@ -14,7 +14,7 @@ local_dir="${GIT_DATA}/${proj}/Bge"
 # -m alt model for calling multiple alleles
 # -v output variant sites only
 # bcftools mpileup -Ou -C50 --threads 4 -f "${local_dir}/BglaB1.5.fa" "${local_dir}/CA301ANXX.bam" | bcftools call -mv --threads 4 -A -Oz  > "${local_dir}/bcftools.raw.bcf"
-bcftools view -Oz --threads 4 -o "${local_dir}/bcftools.vcf.gz"
+bcftools view -Oz --threads 4 "${local_dir}/bcftools.raw.bcf" -o "${local_dir}/bcftools.vcf.gz"
 
 ### convert VCF to TSV
 # vcf2tsv  "${local_dir}/BGE.VB.vcf" > "${local_dir}/BGE.VB.tsv"
