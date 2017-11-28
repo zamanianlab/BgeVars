@@ -45,13 +45,13 @@ mkdir -p ${genome_path}/genomes
 # mv genes2.gtf genes.gtf
 
 # Build genome 
-# cd ${genome_path}
-# snpEff build -gtf22 -v ${build}
+cd ${genome_path}
+snpEff build -gtf22 -v ${build}
 
 # run snpEff
 # cp ~/GHdata/BgeVars/Bge/bcftools.snp.fil3.vcf ${genome_path}/${build}/
-cd ${genome_path}/${build}
-snpEff -c ../../snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
+# cd ${genome_path}/${build}
+# snpEff -c ../../snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
 
 
 
