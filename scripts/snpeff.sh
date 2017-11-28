@@ -49,6 +49,8 @@ cd ${genome_path}
 snpEff build -gtf22 -v ${build}
 
 # run snpEff
+cp ~/GHdata/BgeVars/Bge/bcftools.snp.fil3.vcf ${genome_path}/${build}/
+cd ${genome_path}/${build}/
 snpEff -c snpEff.config -v BglaB1.5 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
 
 
