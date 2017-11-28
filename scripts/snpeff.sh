@@ -24,8 +24,8 @@ wget -nc -O ${genome_path}/genomes/${build}.fa.gz https://www.vectorbase.org/dow
 zcat ${genome_path}/genomes/${build}.fa.gz > ${genome_path}/genomes/${build}.fa
 
 # Download/extract CDS
-# wget -nc -O ${genome_path}/${build}/cds.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02transcriptsbglab15fagz
-# zcat ${genome_path}/${build}/cds.fa.gz > ${genome_path}/${build}/cds.fa
+wget -nc -O ${genome_path}/${build}/cds.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02transcriptsbglab15fagz
+zcat ${genome_path}/${build}/cds.fa.gz > ${genome_path}/${build}/cds.fa
 
 # Download/extract proteins
 wget -nc -O ${genome_path}/${build}/protein.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02peptidesbglab16fagz
@@ -40,14 +40,16 @@ wget -nc -O ${genome_path}/${build}/genes.gtf.gz https://www.vectorbase.org/down
 zcat ${genome_path}/${build}/genes.gtf.gz > ${genome_path}/${build}/genes.gtf
 
 #correct GTF
+cd ${genome_path}/${build}/
 gffread -E genes.gtf -T -o genes2.gtf
+mv genes2.gtf genes.gtf
 
 # Build genome 
+cd ${genome_path}
 snpEff build -gtf22 -v ${build}
 
 # run snpEff
-cd /home/linuxbrew/.linuxbrew/Cellar/snpeff/4.3i/share/snpeff
-snpEff -c snpEff.config -v BglaB1.5 bcftools.vcf > bcftools.ann.vcf
+snpEff -c snpEff.config -v BglaB1.5 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
 
 
 
