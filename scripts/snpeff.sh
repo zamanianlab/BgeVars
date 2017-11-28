@@ -8,9 +8,9 @@ local_dir="${GIT_DATA}/${proj}"
 
 
 # Specify a genome 'build' (Species_Verion)
-build="BglaB1.5"
+build="BglaB1.6"
 # Fetch genome path
-genome_path="`brew info snpeff | grep '/data' | cut -f 7 -d ' '`"
+genome_path="/home/linuxbrew/.linuxbrew/Cellar/snpeff/4.3i/share/snpeff/data"
 
 # Create directories 
 mkdir -p ${genome_path}/${build}
