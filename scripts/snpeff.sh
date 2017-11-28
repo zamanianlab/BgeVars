@@ -50,7 +50,7 @@ mkdir -p ${genome_path}/genomes
 
 # run snpEff
 # cp ~/GHdata/BgeVars/Bge/bcftools.snp.fil3.vcf ${genome_path}/${build}/
-cd ${genome_path}/..
+cd ${genome_path}/${build}
 snpEff -c ../../snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
 
 
