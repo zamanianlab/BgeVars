@@ -39,6 +39,10 @@ mkdir -p ${genome_path}/genomes
 # wget -nc -O ${genome_path}/${build}/genes.gtf.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02basefeaturesbglab16gtfgz
 # zcat ${genome_path}/${build}/genes.gtf.gz > ${genome_path}/${build}/genes.gtf
 
+# Download/extract gff
+wget -nc -O ${genome_path}/${build}/genes.gff.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02basefeaturesbglab16gff3gz
+zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
+
 #correct GTF
 # cd ${genome_path}/${build}/
 # gffread -E genes.gtf -T -o genes2.gtf
@@ -46,7 +50,8 @@ mkdir -p ${genome_path}/genomes
 
 # Build genome 
 cd ${genome_path}
-snpEff build -gtf22 -v ${build}
+# snpEff build -gtf22 -v ${build}
+snpEff build -gff3 -v ${build}
 
 # run snpEff
 # cp ~/GHdata/BgeVars/Bge/bcftools.snp.fil3.vcf ${genome_path}/${build}/
