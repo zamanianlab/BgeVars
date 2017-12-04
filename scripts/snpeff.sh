@@ -37,15 +37,16 @@ mkdir -p ${genome_path}/genomes
 
 # Download/extract gtf
 # wget -nc -O ${genome_path}/${build}/genes.gtf.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02basefeaturesbglab16gtfgz
-zcat ${genome_path}/${build}/genes.gtf.gz > ${genome_path}/${build}/genes.gtf
+# zcat ${genome_path}/${build}/genes.gtf.gz > ${genome_path}/${build}/genes.gtf
 
 # Download/extract gff
 # wget -nc -O ${genome_path}/${build}/genes.gff.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02basefeaturesbglab16gff3gz
 # zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
 
-#correct GTF
+# correct GTF (removes transcript lines, start_codon, stop_codon, and UTRs)
 # cd ${genome_path}/${build}/
 # gffread -E genes.gtf -T -o genes2.gtf
+# gffread -VHBNJ genes.gtf -T -o genes2.gtf
 # mv genes2.gtf genes.gtf
 
 # Build genome 
