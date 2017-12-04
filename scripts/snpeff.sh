@@ -44,10 +44,10 @@ mkdir -p ${genome_path}/genomes
 # zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
 
 # correct GTF (removes transcript lines, start_codon, stop_codon, and UTRs)
-# cd ${genome_path}/${build}/
+cd ${genome_path}/${build}/
 # gffread -E genes.gtf -T -o genes2.gtf
-# gffread -VHBNJ genes.gtf -T -o genes2.gtf
-# mv genes2.gtf genes.gtf
+gffread -VHBNJ genes.gtf -T -o genes2.gtf
+mv genes2.gtf genes.gtf
 
 # Build genome 
 cd ${genome_path}
