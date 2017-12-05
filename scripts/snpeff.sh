@@ -46,7 +46,7 @@ zcat ${genome_path}/${build}/genes.gtf.gz > ${genome_path}/${build}/genes.gtf
 # correct GTF (removes transcript lines, start_codon, stop_codon, and UTRs)
 cd ${genome_path}/${build}/
 # gffread -E genes.gtf -T -o genes2.gtf
-gffread -V -H -B -N -J genes.gtf -T -o genes2.gtf
+gffread -V -H  -N -J genes.gtf -T -o genes2.gtf -g ../genomes/BglaB1.6.fa
 mv genes2.gtf genes.gtf
 
 # Build genome 
