@@ -51,20 +51,20 @@ zcat ${genome_path}/${build}/genes.gtf.gz > ${genome_path}/${build}/genes.gtf
 # zcat ${genome_path}/${build}/genes.gff.gz > ${genome_path}/${build}/genes.gff
 
 # correct GTF (removes transcript lines, start_codon, stop_codon, and UTRs)
-cd ${genome_path}/${build}/
-gffread -E genes.gtf -T -o genes2.gtf
+# cd ${genome_path}/${build}/
+# gffread -E genes.gtf -T -o genes2.gtf
 # gffread -V -H  -N -J genes.gtf -T -o genes2.gtf -g ../genomes/BglaB1.6.fa
-mv genes2.gtf genes.gtf
+# mv genes2.gtf genes.gtf
 
 # Build genome 
-cd ${genome_path}
-snpEff build -gtf22 -v ${build}
+# cd ${genome_path}
+# snpEff build -gtf22 -v ${build}
 # snpEff build -gff3 -v ${build}
 
 # run snpEff
-cp ~/GHdata/BgeVars/Bge/bcftools.snp.fil3.vcf ${genome_path}/${build}/
-cd ${genome_path}/${build}
-snpEff -c ../../snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
+# cp ~/GHdata/BgeVars/Bge/bcftools.snp.fil3.vcf ${genome_path}/${build}/
+# cd ${genome_path}/${build}
+# snpEff -c ../../snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
 
 
 
