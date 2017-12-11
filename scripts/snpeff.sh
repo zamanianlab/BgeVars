@@ -23,18 +23,24 @@ echo "${build}.genome : B_glabrata" >> $genome_path/../snpEff.config
 # Download genome / Extract sequence 
 wget -nc -O ${genome_path}/genomes/${build}.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02scaffoldsbglab1fagz
 zcat ${genome_path}/genomes/${build}.fa.gz > ${genome_path}/genomes/${build}.fa
+cat ${genome_path}/genomes/${build}.fa | sed "s/>\(.*\) dna:.*/>\1/" > ${genome_path}/genomes/${build}2.fa
+mv ${genome_path}/genomes/${build}2.fa ${genome_path}/genomes/${build}.fa
 
 # Download/extract CDS
 wget -nc -O ${genome_path}/${build}/cds.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02transcriptsbglab16fagz
 zcat ${genome_path}/${build}/cds.fa.gz > ${genome_path}/${build}/cds.fa
+cat ${genome_path}/${build}/cds.fa | perl -pe "s/>(.*?) .*/>\1/" ${genome_path}/${build}/cds.fa > ${genome_path}/${build}/cds2.fa
+mv ${genome_path}/${build}/cds2.fa ${genome_path}/${build}/cds.fa
 
 # Download/extract proteins
 wget -nc -O ${genome_path}/${build}/protein.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02peptidesbglab16fagz
 zcat ${genome_path}/${build}/protein.fa.gz > ${genome_path}/${build}/protein.fa
+cat ${genome_path}/${build}/protein.fa | perl -pe "s/>(.*?)-P(.) .*/>\1-R\2/" ${genome_path}/${build}/protein.fa > ${genome_path}/${build}/protein2.fa
+mv ${genome_path}/${build}/protein2.fa ${genome_path}/${build}/protein.fa
 
 # Download/extract transcripts
-wget -nc -O ${genome_path}/${build}/transcripts.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02transcriptsbglab16fagz
-zcat ${genome_path}/${build}/transcripts.fa.gz > ${genome_path}/${build}/transcripts.fa
+# wget -nc -O ${genome_path}/${build}/transcripts.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02transcriptsbglab16fagz
+# zcat ${genome_path}/${build}/transcripts.fa.gz > ${genome_path}/${build}/transcripts.fa
 
 # Download/extract gtf
 wget -nc -O ${genome_path}/${build}/genes.gtf.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02basefeaturesbglab16gtfgz

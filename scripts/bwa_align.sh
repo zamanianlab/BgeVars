@@ -22,3 +22,19 @@ samtools index -@ 4 -b ${GIT_DATA}/${proj}/CA301ANXX.bam
 # bedtools genomecov -ibam ~/data/Bgla/BAM/merge.bam -bga > ~/data/Bgla/BAM/merge.bga.bedgraph
 bedtools genomecov -ibam ${GIT_DATA}/${proj}/CA301ANXX.bam -bga > ${GIT_DATA}/${proj}/CA301ANXX.bga.bedgraph
 # bedtools genomecov -ibam ~/data/Bge/GCF_000457365.1_ASM45736v1_genomic.sorted.bam -d > ~/data/Bgla/BAM/BGE.d.bedgraph
+
+
+# [zamanian@brc6 Bge]$ samtools flagstat CA301ANXX.bam
+# 336645748 + 0 in total (QC-passed reads + QC-failed reads)
+# 0 + 0 secondary
+# 12391422 + 0 supplementary
+# 0 + 0 duplicates
+# 331826214 + 0 mapped (98.57% : N/A)
+# 324254326 + 0 paired in sequencing
+# 162127163 + 0 read1
+# 162127163 + 0 read2
+# 277408126 + 0 properly paired (85.55% : N/A)
+# 316177310 + 0 with itself and mate mapped
+# 3257482 + 0 singletons (1.00% : N/A)
+# 31014804 + 0 with mate mapped to a different chr
+# 18144990 + 0 with mate mapped to a different chr (mapQ>=5)
