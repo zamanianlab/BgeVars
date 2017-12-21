@@ -27,21 +27,21 @@ local_dir="${GIT_DATA}/${proj}"
 # bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.snp.vcf" > "${local_dir}/bcftools.snp.dp4.vcf"
 
 ### continue filtering
-### only keep bi- or tri-allelic sites
-# After filtering, kept 10478307 out of a possible 10489715 Sites
-vcftools --vcf "${local_dir}/bcftools.snp.vcf"  --min-alleles 2 --max-alleles 3 --recode --recode-INFO-all --out "${local_dir}/bcftools.snp.fil1.vcf"
+### only keep biallelic sites
+# After filtering, kept 10135440 out of a possible 10489715 Sites
+vcftools --vcf "${local_dir}/bcftools.snp.vcf"  --min-alleles 2 --max-alleles 2 --recode --recode-INFO-all --out "${local_dir}/bcftools.snp.fil1.vcf"
 mv  "${local_dir}/bcftools.snp.fil1.vcf.recode.vcf"  "${local_dir}/bcftools.snp.fil1.vcf"
 ### get relevant INFO tags
 bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.snp.fil1.vcf" > "${local_dir}/bcftools.snp.fil1.dp4.vcf"
 
 ### filter out variants that have quality less than 1/4 of the depth
-# 10361386 out of 10478307
+# 10031395 out of 10135440
 vcffilter -f "QUAL / DP > 0.25" "${local_dir}/bcftools.snp.fil1.vcf" > "${local_dir}/bcftools.snp.fil2.vcf"
 ### get relevant INFO tags
 bcftools query -f '%CHROM %POS %REF %ALT %DP4\n' "${local_dir}/bcftools.snp.fil2.vcf" > "${local_dir}/bcftools.snp.fil2.dp4.vcf"
 
 ### recode to a new VCF
-# After filtering, kept 10371439 out of a possible 10371439 Sites
+# After filtering, kept 10031395 out of a possible 10031395 Sites
 vcftools --vcf  "${local_dir}/bcftools.snp.fil2.vcf" --recode-INFO-all --out "${local_dir}/bcftools.snp.fil3.vcf" --recode 
 mv  "${local_dir}/bcftools.snp.fil3.vcf.recode.vcf"  "${local_dir}/bcftools.snp.fil3.vcf"
 ### get relevant INFO tags

@@ -1,0 +1,88 @@
+###############################################################################################################
+
+Nics-MacBook-Pro:genomes nic$ head BglaB1.6.fa
+>LGUN_random_Scaffold1
+AttcactgtttactgtagtctaattttgtcgaataaagccatattattggtattctagtcgttatcatttcattacAGCT
+AGCCCCCATCTTACGCGTCCACTCACTACACACGTTTTTCTCGCCTCTTCCTCAACCTACATTGTTGGGCTGGAATCCTG
+GAATGCTCAACAATCTCCTACTACTGAACAGATGTTTTCAATTTGATTtgtgtgtgtgtgttttttttCATTATGTCTTT
+CCTTCTGTTGAATTTAAATTCGACCGCATTGAGCAATGTGGCTCAACAACACACACACAATCTACTCTTTTCTAAGATGC
+TAATCATTTTATTTTGTTCTTCTTCAAATCTGATTAGCCCAATCCAGTCTAGCCATCCCAAGAACAGGCTTCTAAGATCC
+AGCAGCATGTAAATAAAAGAGTCTTCGCATTCAGCTGAAGAATTCAAGAGTCGTTGCTGTTGTTTTAGCCGTCCGGGTAA
+AGGAAAACGTGGCTATTAATTTTGAGTGTAAAATCGTATTTGTTTTTAATATAGGTATGGATAATTCTATTTAAATACAA
+TCATAAAGTGTGCTGTTTACGAAAAAGACTGATTTGTTTAAGGGGCTTAATATCAAGAATGATACCAGAAGGATGACCCG
+CGCCATACCAATTAACAAACGCGTCCCTGACTAAACATTGAACACAGTTGATTCGGCCTGCTATGATCCATTCCAGCTAC
+
+###############################################################################################################
+
+Nics-MacBook-Pro:BglaB1.6 nic$ head cds.fa
+>BGLB000001-RA
+TTATCGATGATGCTGTTCTCAAAGCTTTGGGTCGCTCTGACAATACTTGGAATAGTGGATGCCCTCTGTACTGAATCATT
+ATGGTCAAACAGAATCAATTATCACGGCCAATCTACATGTAAAGAACCAACGTATTACATGAACGGGTTGCAAAGAGATC
+ATCTTCAACAAAACGACGGACTTCACCTGTTAAAAGGAGCTGTTTGCTGCAGTGCACCATCGCGTTTTTTACAATCTGAC
+AATCTAGTCCTCTACAAAGACTGGACATATGTATTAGAAGAAAAGAATGATATATGGGCCAACTGCCCCGAAGGATACTT
+TCTTCATGGTTTGCAGAGATCACAAAATGAGGACGGGGTTAATTACTTACATAACATTGAATACGCAAGATGTGTTAAGC
+CTTCAAATCATCCACATTATTATGGCGATTGTTATGCTCAGAATATAACCTTTAATAAGCAGGGTGTTTTTTCTTGTAAA
+ACAAATTTCTTCATAACCGGAATACACAAAGTCAAGGGTGATTATTTGCATCACATAGATAAACTTTACTGCTGTGCAAT
+GGAAGAAGAACCAGAGATAGTATATGATGTAGACACATTTAAAAGAGTCATAATGGAAAACACTATGAACAATTTGGTAC
+GACTTGCTATGGCATTGGGCTATGGGCATTGTGCAGGAAACAAGGCAATCTACGTAGGTGATGACTTTTACCGGGACGGA
+
+###############################################################################################################
+
+Nics-MacBook-Pro:BglaB1.6 nic$ head protein.fa
+>BGLB000001-RA
+MMLFSKLWVALTILGIVDALCTESLWSNRINYHGQSTCKEPTYYMNGLQRDHLQQNDGLHLLKGAVCCSAPSRFLQSDNL
+VLYKDWTYVLEEKNDIWANCPEGYFLHGLQRSQNEDGVNYLHNIEYARCVKPSNHPHYYGDCYAQNITFNKQGVFSCKTN
+FFITGIHKVKGDYLHHIDKLYCCAMEEEPEIVYDVDTFKRVIMENTMNNLVRLAMALGYGHCAGNKAIYVGDDFYRDGDS
+WIADHRLFWGDKKCNGEKCEERLKIDYLDWSFNMKDIIYSNGVIDELKPERVYEMGFQNNQNNNVTKTFEYKNAFSSSIT
+HSTSISKKTSFEYTVSMEVDAKFISKIKGSIMMAFENSELYKTEMGSKNGEELVDRINYSIPAQTFAKYKVFLSKIRTTT
+PYTAIFIAKFNVRFTGMLRYGGGYASKMTNFHYQYKGSTERPSFTYTFGDDSDAFYTALKLQSRNRAMPWLWKDIFKNSD
+RIRDIINSLTNETKYQFILNGKFEQVYGKSIHSLVDLTKLRSPSVRRKRQTETFYVNDTFIAKAGPDDKPVEVNYPEISL
+QEISPIELEPILNDPDSS
+
+###############################################################################################################
+
+Adjusting transcripts: ........
+	Adjusting genes: .......
+	Adjusting chromosomes lengths:
+	Ranking exons: ....................................................................................................
+		10000	....................................................................................................
+		20000	....................................................................................................
+		30000	....................................................................................................
+		40000	............................................
+	Create UTRs from CDS (if needed):
+	Correcting exons based on frame information.
+	java.lang.RuntimeException: Error: Cannot find first coding exon for transcript:
+LGUN_random_Scaffold3117:-4036-31644, strand: -, id:BGLB018496-RA
+		5'UTR   :	LGUN_random_Scaffold3117	31608-31644 UTR_5_PRIME 'UTR5_LGUN_random_Scaffold3117_31609_31645'
+		Exons:
+		LGUN_random_Scaffold3117:-4036--3928 'EXON_LGUN_random_Scaffold3117_31537_31645', rank: 3, frame: ., sequence: aggaaatggaacaatagacttcacagagtttcttactatgatgagcaaaaagatgagtcctagtgacgcagaagaagaaatccgtgaggcttttagggtttttgacaag
+		LGUN_random_Scaffold3117:6128-6619 'EXON_LGUN_random_Scaffold3117_6129_6620', rank: 2, frame: 2, sequence: agttcgtgaagatgatggcccataatgtgaaatgaattaatgatttaaaagattccatgaaattgcgtttctttataaactcatatttaaggcctcttcacatgacaatttataacaattatttttttatttatgtcatataagatgacattatattatgacattattatatgaaattatgacttttacgtgagaataaaaaattggcgattcacacttagccagttggaatcctaatgaaagatacgttttaaatgtggccatttaccgtggacaaaatattgacacatgtctaaatgttaactagaatatggacacatatagaagctaatcggatacaacatgacagatagattacagaaagaccgtgtaagattttttaacaagaattagacagtaatgaagataacatgattataacaggacttgggcacaataacgggacataacatgacttccacactataacatgacataacgtgactacaacac
+		LGUN_random_Scaffold3117:8929-9064 'EXON_LGUN_random_Scaffold3117_8930_9065', rank: 1, frame: 0, sequence: gatggcaacggctacatctcggcgcaagagctgcgtcacgttatgaccaacctgggagagaggctgaccgatgaggaggtcaacgaaatgatcaaagaggcggacattgatggcgatggacaggtcaactacgaag
+		3'UTR   :	LGUN_random_Scaffold3117	6128-6584 UTR_3_PRIME 'UTR3_LGUN_random_Scaffold3117_6129_6585'
+
+	at org.snpeff.interval.Transcript.getFirstCodingExon(Transcript.java:1136)
+	at org.snpeff.interval.Transcript.frameCorrectionFirstCodingExon(Transcript.java:909)
+	at org.snpeff.interval.Transcript.frameCorrection(Transcript.java:878)
+	at org.snpeff.snpEffect.factory.SnpEffPredictorFactory.frameCorrection(SnpEffPredictorFactory.java:596)
+	at org.snpeff.snpEffect.factory.SnpEffPredictorFactory.finishUp(SnpEffPredictorFactory.java:545)
+	at org.snpeff.snpEffect.factory.SnpEffPredictorFactoryGff.create(SnpEffPredictorFactoryGff.java:348)
+	at org.snpeff.snpEffect.commandLine.SnpEffCmdBuild.run(SnpEffCmdBuild.java:369)
+	at org.snpeff.SnpEff.run(SnpEff.java:1183)
+	at org.snpeff.SnpEff.main(SnpEff.java:162)
+java.lang.RuntimeException: Error reading file '/Users/nic/bin/snpEff/./data/BglaB1.6/genes.gtf'
+java.lang.RuntimeException: Error: Cannot find first coding exon for transcript:
+LGUN_random_Scaffold3117:-4036-31644, strand: -, id:BGLB018496-RA
+		5'UTR   :	LGUN_random_Scaffold3117	31608-31644 UTR_5_PRIME 'UTR5_LGUN_random_Scaffold3117_31609_31645'
+		Exons:
+		LGUN_random_Scaffold3117:-4036--3928 'EXON_LGUN_random_Scaffold3117_31537_31645', rank: 3, frame: ., sequence: aggaaatggaacaatagacttcacagagtttcttactatgatgagcaaaaagatgagtcctagtgacgcagaagaagaaatccgtgaggcttttagggtttttgacaag
+		LGUN_random_Scaffold3117:6128-6619 'EXON_LGUN_random_Scaffold3117_6129_6620', rank: 2, frame: 2, sequence: agttcgtgaagatgatggcccataatgtgaaatgaattaatgatttaaaagattccatgaaattgcgtttctttataaactcatatttaaggcctcttcacatgacaatttataacaattatttttttatttatgtcatataagatgacattatattatgacattattatatgaaattatgacttttacgtgagaataaaaaattggcgattcacacttagccagttggaatcctaatgaaagatacgttttaaatgtggccatttaccgtggacaaaatattgacacatgtctaaatgttaactagaatatggacacatatagaagctaatcggatacaacatgacagatagattacagaaagaccgtgtaagattttttaacaagaattagacagtaatgaagataacatgattataacaggacttgggcacaataacgggacataacatgacttccacactataacatgacataacgtgactacaacac
+		LGUN_random_Scaffold3117:8929-9064 'EXON_LGUN_random_Scaffold3117_8930_9065', rank: 1, frame: 0, sequence: gatggcaacggctacatctcggcgcaagagctgcgtcacgttatgaccaacctgggagagaggctgaccgatgaggaggtcaacgaaatgatcaaagaggcggacattgatggcgatggacaggtcaactacgaag
+		3'UTR   :	LGUN_random_Scaffold3117	6128-6584 UTR_3_PRIME 'UTR3_LGUN_random_Scaffold3117_6129_6585'
+
+	at org.snpeff.snpEffect.factory.SnpEffPredictorFactoryGff.create(SnpEffPredictorFactoryGff.java:353)
+	at org.snpeff.snpEffect.commandLine.SnpEffCmdBuild.run(SnpEffCmdBuild.java:369)
+	at org.snpeff.SnpEff.run(SnpEff.java:1183)
+	at org.snpeff.SnpEff.main(SnpEff.java:162)
+00:11:28	Logging
+00:11:30	Checking for updates...
+00:11:31	Done.

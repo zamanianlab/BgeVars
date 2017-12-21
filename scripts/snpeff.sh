@@ -9,15 +9,16 @@ local_dir="${GIT_DATA}/${proj}"
 
 # Specify a genome 'build' (Species_Verion)
 build="BglaB1.6"
-# Fetch genome pathcd 
-genome_path="/home/linuxbrew/.linuxbrew/Cellar/snpeff/4.3i/share/snpeff/data"
+# Fetch genome path
+# genome_path="/home/linuxbrew/.linuxbrew/Cellar/snpeff/4.3i/share/snpeff/data"
+genome_path="/Users/nic/bin/snpEff/data"
 
 # Create directories 
 mkdir -p ${genome_path}/${build}
 mkdir -p ${genome_path}/genomes
 
 # Update config file
-echo "${build}.genome : B_glabrata" >> $genome_path/../snpEff.config
+# echo "${build}.genome : B_glabrata" >> $genome_path/../snpEff.config
 
 # Download genome / Extract sequence 
 # wget -nc -O ${genome_path}/genomes/${build}.fa.gz https://www.vectorbase.org/download/biomphalaria-glabrata-bb02scaffoldsbglab1fagz
@@ -56,16 +57,16 @@ echo "${build}.genome : B_glabrata" >> $genome_path/../snpEff.config
 # mv genes2.gtf genes.gtf
 
 # Build genome 
-cd ${genome_path}
-snpEff build -gtf22 -v ${build}
+# cd ${genome_path}
+# snpEff build -gtf22 -v ${build}
 # snpEff build -gff3 -v ${build}
 
 # run snpEff
-cp ~/GHdata/BgeVars/Bge/bcftools.snp.fil3.vcf ${genome_path}/${build}/
-cd ${genome_path}/${build}
-snpEff -c ../../snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
-
-
+cp "${local_dir}"/bcftools.snp.fil3.vcf ${genome_path}/..
+# cd ${genome_path}/${build}
+# snpEff -c ../../snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
+cd ~/bin/snpEff
+java -jar -Xmx16g snpEff.jar -c snpEff.config -v BglaB1.6 bcftools.snp.fil3.vcf > bcftools.snp.fil3.ann.vcf
 
 
 
